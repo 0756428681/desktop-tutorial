@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rubaa's Shop - Home</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#f5f5f5}
+.header{background:#fff;padding:12px 6%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;box-shadow:0 2px 5px rgba(0,0,0,.1);z-index:10}
+.logo{font-size:24px;font-weight:900}.logo span{color:#ff3e6c}
+.search{display:flex;flex:1;max-width:400px;margin:0 15px}
+.search input{flex:1;padding:9px;border:1px solid #ddd;border-radius:5px 0 0 5px}
+.search button{background:#111;color:#fff;border:none;padding:0 15px;border-radius:0 5px 5px 0}
+.cart-btn{background:#ff3e6c;color:#fff;padding:8px 16px;border-radius:20px;text-decoration:none;font-weight:bold}
+.grid{padding:20px 6%;display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}}
+.card{background:#fff;border-radius:10px;padding:12px}
+.card-img{height:130px;background:#f1f2f6;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:45px}
+.name{font-size:13px;margin:8px 0}.price{font-weight:800}
+.add{width:100%;padding:8px;margin-top:6px;border:1px solid #111;background:#fff;border-radius:20px;cursor:pointer;font-weight:600}
+.add:hover{background:#111;color:#fff}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo">Rubaa's<span>Shop</span></div>
+  <div class="search"><input id="search" placeholder="Search products..."><button>Search</button></div>
+  <a href="checkoutpage.html" class="cart-btn">🛒 Cart (<span id="count">0</span>)</a>
+</div>
+
+<div style="margin:15px 6%;background:#111;color:#fff;padding:25px;border-radius:12px;">
+  <h1>New Season Sale - Up to 50% OFF</h1><p>Free delivery in Kampala</p>
+</div>
+
+<div class="grid" id="products">
+  <!-- Products added by JS -->
+</div>
+
+<script>
+const products = [
+  {id:1,name:"Tecno Spark 20 - 128GB",price:450000,emoji:"📱"},
+  {id:2,name:"Wireless Headphones",price:85000,emoji:"🎧"},
+  {id:3,name:"Nike Sneakers",price:150000,emoji:"👟"},
+  {id:4,name:"HP Laptop i5",price:1850000,emoji:"💻"},
+  {id:5,name:"Smart Watch",price:95000,emoji:"⌚"},
+  {id:6,name:"Ladies Handbag",price:60000,emoji:"👜"},
+  {id:7,name:"T-Shirts Pack of 3",price:45000,emoji:"👕"},
+  {id:8,name:"32 Inch Smart TV",price:490000,emoji:"📺"},
+];
+let cart = JSON.parse(localStorage.getItem('cart')||'[]');
+function render(){
+  document.getElementById('products').innerHTML = products.map(p=>`
+    <div class="card">
+      <div class="card-img">${p.emoji}</div>
+      <div class="name">${p.name}</div>
+      <div class="price">${p.price.toLocaleString()} UGX</div>
+      <button class="add" onclick="addToCart(${p.id})">Add to Cart</button>
+    </div>`).join('');
+  document.getElementById('count').innerText = cart.length;
+}
+function addToCart(id){
+  const prod = products.find(p=>p.id==id);
+  cart.push(prod);
+  localStorage.setItem('cart',JSON.stringify(cart));
+  render();
+  alert(prod.name + " added to cart");
+}
+render();
+</script>
+</body>
+</html>
